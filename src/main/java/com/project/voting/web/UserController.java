@@ -2,6 +2,8 @@ package com.project.voting.web;
 
 import com.project.voting.model.User;
 import com.project.voting.repository.CrudUserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +18,13 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-
+    Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
     CrudUserRepository repository;
 
     @GetMapping
     public String getAll(Model model) {
+        log.info("getAll");
         model.addAttribute("users", repository.findAll());
         return "users";
     }
@@ -35,6 +38,7 @@ public class UserController {
     public String create(@RequestParam String username,
                          @RequestParam String password) {
         User user = new User(username, password);
+        log.info("create {}", user);
         repository.save(user);
         return "redirect:/users";
     }
@@ -42,6 +46,7 @@ public class UserController {
     @GetMapping("/delete")
     public String delete(HttpServletRequest request) {
         repository.deleteById(getId(request));
+        log.info("delete User {}", getId(request));
         return "redirect:/users";
     }
 
