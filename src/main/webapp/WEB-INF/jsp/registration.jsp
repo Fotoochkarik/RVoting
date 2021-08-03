@@ -2,7 +2,7 @@
 <html>
 <%--<jsp:include page="fragments/headTag.jsp"/>--%>
 <body>
-<form method="post" action="user">
+<form method="post" action="registration">
     <dl>
         <dt>Name</dt>
         <dd><input type="text" name="username" value="${param.username}"></dd>
@@ -11,7 +11,6 @@
         <dt>Password:</dt>
         <dd><input type="text" name="password" value="${param.password}"></dd>
     </dl>
-
     <button type="submit">Save</button>
 </form>
 </body>

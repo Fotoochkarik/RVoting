@@ -5,13 +5,14 @@
 <%--<jsp:include page="fragments/headTag.jsp"/>--%>
 <body>
 <sesion>
-    <a href="${pageContext.request.contextPath}/users/user">Add User</a>
+    <a href="${pageContext.request.contextPath}/users/registration">Add User</a>
 
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
             <th>Name</th>
             <th>Password</th>
+            <th>Role</th>
             <th></th>
             <th></th>
         </tr>
@@ -21,6 +22,7 @@
                 <jsp:useBean id="user" scope="page" type="com.project.voting.model.User"/>
                 <td>${user.username}</td>
                 <td>${user.password}</td>
+                <td>${user.roles}</td>
                 <td><a href="users/update?id=${user.id}">Update</a></td>
                 <td><a href="users/delete?id=${user.id}">Delete</a></td>
             </tr>
