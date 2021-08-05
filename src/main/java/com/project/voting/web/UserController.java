@@ -2,7 +2,8 @@ package com.project.voting.web;
 
 import com.project.voting.model.Role;
 import com.project.voting.model.User;
-import com.project.voting.repository.CrudUserRepository;
+import com.project.voting.repository.UserRepository;
+import com.project.voting.util.validation.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Objects;
 
-import static com.project.voting.util.ValidationUtil.checkNew;
-
 @Controller
 public class UserController {
     private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    private CrudUserRepository repository;
+    private UserRepository repository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -45,12 +44,10 @@ public class UserController {
     @PostMapping("/registration")
     public String create(@RequestParam String username,
                          @RequestParam String password) {
-        User user = new User(username, bCryptPasswordEncoder.encode(password));
-        user.setRoles(Collections.singleton(Role.USER));
-        user.setActive(true);
-        log.info("create {}", user);
-        checkNew(user);
-        repository.save(user);
+//        User user = new User(null, username, bCryptPasswordEncoder.encode(password), true, Collections.singleton(Role.ADMIN));
+//        log.info("create {}", user);
+//        ValidationUtil.checkNew(user);
+//        repository.save(user);
         return "redirect:/login";
     }
 

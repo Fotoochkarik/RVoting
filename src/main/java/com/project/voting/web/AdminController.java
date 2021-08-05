@@ -1,6 +1,6 @@
 package com.project.voting.web;
 
-import com.project.voting.repository.CrudUserRepository;
+import com.project.voting.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminController {
 
     @Autowired
-    private CrudUserRepository repository;
+    private UserRepository repository;
 
     @GetMapping("/admin")
     public String userList(Model model) {

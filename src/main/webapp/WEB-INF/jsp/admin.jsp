@@ -22,9 +22,7 @@
                 <td>${user.id}</td>
                 <td>${user.username}</td>
                 <td>${user.password}</td>
-                <td>
-                    <c:forEach items="${user.roles}" var="role">${role.name}; </c:forEach>
-                </td>
+                <td>${user.roles}</td>
                 <td>
                     <form action="${pageContext.request.contextPath}/admin" method="post">
                         <input type="hidden" name="userId" value="${user.id}"/>

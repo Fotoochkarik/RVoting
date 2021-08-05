@@ -1,4 +1,4 @@
-package com.project.voting.util.exception;
+package com.project.voting.error;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {
