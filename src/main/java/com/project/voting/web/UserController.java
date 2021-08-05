@@ -17,16 +17,17 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Objects;
 
+import static com.project.voting.util.ValidationUtil.checkNew;
+
 @Controller
-//@RequestMapping("/users")
 public class UserController {
-    Logger log = LoggerFactory.getLogger(UserController.class);
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    CrudUserRepository repository;
+    private CrudUserRepository repository;
 
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/users")
     public String getAll(Model model) {
@@ -45,9 +46,10 @@ public class UserController {
     public String create(@RequestParam String username,
                          @RequestParam String password) {
         User user = new User(username, bCryptPasswordEncoder.encode(password));
-        user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
+        user.setActive(true);
         log.info("create {}", user);
+        checkNew(user);
         repository.save(user);
         return "redirect:/login";
     }

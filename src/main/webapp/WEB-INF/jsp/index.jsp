@@ -15,7 +15,8 @@
     <sec:authorize access="isAuthenticated()">
         <h4><a href="${pageContext.request.contextPath}/logout">Выйти</a></h4>
     </sec:authorize>
-    <h4><a href="${pageContext.request.contextPath}/users">Пользователи</a></h4>
+    <h4><a href="${pageContext.request.contextPath}/admin">Пользователи</a></h4>
+    <h4><a href="${pageContext.request.contextPath}/news">News</a></h4>
 </div>
 </body>
 </html>
