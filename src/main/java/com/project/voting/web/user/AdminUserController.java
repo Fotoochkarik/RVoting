@@ -1,7 +1,6 @@
 package com.project.voting.web.user;
 
 import com.project.voting.model.User;
-import com.project.voting.util.validation.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,6 +17,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+import static com.project.voting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.project.voting.util.validation.ValidationUtil.checkNew;
 
 @RestController
@@ -66,7 +66,7 @@ public class AdminUserController extends AbstractUserController {
     @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody User user, @PathVariable int id) {
         log.info("update {} with id={}", user, id);
-        ValidationUtil.assureIdConsistent(user, id);
+        assureIdConsistent(user, id);
         prepareAndSave(user);
     }
 

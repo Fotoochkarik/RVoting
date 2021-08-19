@@ -26,14 +26,14 @@ public class UserController {
     private UserRepository repository;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("/users")
-    public String getAll(Model model) {
-        log.info("getAll");
-        model.addAttribute("users", repository.findAll());
-        return "users";
-    }
+//    @GetMapping("/users")
+//    public String getAll(Model model) {
+//        log.info("getAll");
+//        model.addAttribute("users", repository.findAll());
+//        return "users";
+//    }
 
     @GetMapping("/registration")
     public String registration() {

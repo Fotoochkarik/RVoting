@@ -8,7 +8,6 @@ import com.project.voting.web.MatcherFactory;
 import java.util.Collections;
 import java.util.Date;
 
-
 public class UserTestData {
     public static final MatcherFactory.Matcher<User> MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "registered", "password");
 

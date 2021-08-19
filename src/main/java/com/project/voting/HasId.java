@@ -1,6 +1,5 @@
 package com.project.voting;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.util.Assert;
 
