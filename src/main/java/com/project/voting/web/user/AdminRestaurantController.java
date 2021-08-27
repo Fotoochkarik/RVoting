@@ -1,10 +1,9 @@
 package com.project.voting.web.user;
 
-import com.project.voting.model.Dish;
-import com.project.voting.repository.DishRepository;
+import com.project.voting.model.Restaurant;
+import com.project.voting.repository.RestaurantRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,29 +18,24 @@ import static com.project.voting.util.validation.ValidationUtil.assureIdConsiste
 import static com.project.voting.util.validation.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-// TODO: cache only most requested data!
-@CacheConfig(cacheNames = "dishes")
-public class AdminDishController {
-
-    static final String REST_URL = "/api/admin/restaurants/dishes";
+public class AdminRestaurantController {
+    static final String REST_URL = "/api/admin/restaurants";
 
     @Autowired
-    private DishRepository repository;
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Dish> get(@PathVariable int id) {
-        log.info("get {} dish", id);
-        return ResponseEntity.of(repository.findById(id)
-//                .filter(dish -> restaurantId == dish.getRestaurant().getId())
-        );
-    }
+    private RestaurantRepository repository;
 
     @GetMapping
-    public List<Dish> getAll() {
+    public List<Restaurant> getAll() {
         log.info("getAll");
         return repository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Restaurant> get(@PathVariable int id) {
+        log.info("get {} restaurant", id);
+        return ResponseEntity.of(repository.findById(id));
     }
 
     @DeleteMapping("/{id}")
@@ -52,10 +46,10 @@ public class AdminDishController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish) {
-        log.info("create {}", dish);
-        checkNew(dish);
-        Dish created = repository.save(dish);
+    public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
+        log.info("create {}", restaurant);
+        checkNew(restaurant);
+        Restaurant created = repository.save(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -64,9 +58,9 @@ public class AdminDishController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Dish dish, @PathVariable int id) {
-        log.info("update {} with id={}", dish, id);
-        assureIdConsistent(dish, id);
-        repository.save(dish);
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
+        log.info("update {} with id={}", restaurant, id);
+        assureIdConsistent(restaurant, id);
+        repository.save(restaurant);
     }
 }

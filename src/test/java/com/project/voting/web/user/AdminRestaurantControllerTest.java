@@ -1,7 +1,7 @@
 package com.project.voting.web.user;
 
-import com.project.voting.model.Dish;
-import com.project.voting.repository.DishRepository;
+import com.project.voting.model.Restaurant;
+import com.project.voting.repository.RestaurantRepository;
 import com.project.voting.util.JsonUtil;
 import com.project.voting.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.project.voting.TestUtil.userHttpBasic;
-import static com.project.voting.web.user.DishTestData.*;
+import static com.project.voting.web.RestaurantTestData.*;
 import static com.project.voting.web.user.UserTestData.ADMIN_MAIL;
 import static com.project.voting.web.user.UserTestData.USER_MAIL;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -20,30 +20,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class AdminDishControllerTest extends AbstractControllerTest {
+class AdminRestaurantControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = AdminDishController.REST_URL + "/";
+    private static final String REST_URL = AdminRestaurantController.REST_URL + "/";
 
     @Autowired
-    private DishRepository repository;
-
-    @Test
-    void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + BREAKFAST_ID)
-                .with(userHttpBasic(UserTestData.admin)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentJson(breakfast));
-    }
-
-    @Test
-    void getWithoutAccess() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + BREAKFAST_ID)
-                .with(userHttpBasic(UserTestData.user)))
-                .andExpect(status().is4xxClientError())
-                .andDo(print());
-    }
+    private RestaurantRepository repository;
 
     @Test
     void getUnAuth() throws Exception {
@@ -64,21 +46,39 @@ class AdminDishControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentJson(breakfast, lunch));
+                .andExpect(MATCHER.contentJson(macdonalds, kfc, burgerKing));
+    }
+
+    @Test
+    void getWithoutAccess() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + MACDONALDS_ID)
+                .with(userHttpBasic(UserTestData.user)))
+                .andExpect(status().is4xxClientError())
+                .andDo(print());
+    }
+
+    @Test
+    void get() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + KFC_ID)
+                .with(userHttpBasic(UserTestData.admin)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MATCHER.contentJson(kfc));
     }
 
     @Test
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + BREAKFAST_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL + KFC_ID)
                 .with(userHttpBasic(UserTestData.admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertFalse(repository.findById(BREAKFAST_ID).isPresent());
+        assertFalse(repository.findById(KFC_ID).isPresent());
     }
 
     @Test
     void deleteWithoutAccess() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + BREAKFAST_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL + KFC_ID)
                 .with(userHttpBasic(UserTestData.user)))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -94,22 +94,22 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        Dish newDish = getNew();
+        Restaurant newRestaurant = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(UserTestData.admin))
-                .content(JsonUtil.writeValue(newDish)));
+                .content(JsonUtil.writeValue(newRestaurant)));
 
-        Dish created = MATCHER.readFromJson(action);
+        Restaurant created = MATCHER.readFromJson(action);
         int newId = created.id();
-        newDish.setId(newId);
-        MATCHER.assertMatch(created, newDish);
-        MATCHER.assertMatch(repository.getById(newId), newDish);
+        newRestaurant.setId(newId);
+        MATCHER.assertMatch(created, newRestaurant);
+        MATCHER.assertMatch(repository.getById(newId), newRestaurant);
     }
 
     @Test
     void createInvalid() throws Exception {
-        Dish invalid = new Dish(null, null, 200);
+        Restaurant invalid = new Restaurant(null, null);
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(UserTestData.admin))
@@ -121,11 +121,11 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void createWithoutAccess() throws Exception {
-        Dish newDish = getNew();
+        Restaurant newRestaurant = getNew();
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(UserTestData.user))
-                .content(JsonUtil.writeValue(newDish)))
+                .content(JsonUtil.writeValue(newRestaurant)))
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
@@ -133,23 +133,23 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        Dish updated = getUpdated();
+        Restaurant updated = getUpdated();
         updated.setId(null);
-        perform(MockMvcRequestBuilders.put(REST_URL + BREAKFAST_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL + MACDONALDS_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        MATCHER.assertMatch(repository.getById(BREAKFAST_ID), getUpdated());
+        MATCHER.assertMatch(repository.getById(MACDONALDS_ID), getUpdated());
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateInvalid() throws Exception {
-        Dish invalid = new Dish(lunch);
+        Restaurant invalid = new Restaurant(kfc);
         invalid.setName("");
-        perform(MockMvcRequestBuilders.put(REST_URL + LUNCH_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL + KFC_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
@@ -159,8 +159,8 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateWithoutAccess() throws Exception {
-        Dish invalid = new Dish(lunch);
-        perform(MockMvcRequestBuilders.put(REST_URL + LUNCH_ID)
+        Restaurant invalid = new Restaurant(kfc);
+        perform(MockMvcRequestBuilders.put(REST_URL + KFC_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())

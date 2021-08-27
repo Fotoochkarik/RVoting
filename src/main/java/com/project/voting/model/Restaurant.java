@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = "users")
+@Table(name = "restaurant")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,6 +34,14 @@ public class Restaurant extends NamedEntity implements HasId {
 ////    @OrderBy("dateTime DESC")
 //    @JsonManagedReference
 //    private Set<Vote> votes;
+
+    public Restaurant(Restaurant r) {
+        this(r.id, r.name, r.registered);
+    }
+
+    public Restaurant(Integer id, String name) {
+        this(id, name, new Date());
+    }
 
     public Restaurant(Integer id, String name, Date registered) {
         super(id, name);

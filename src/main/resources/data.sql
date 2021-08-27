@@ -8,5 +8,10 @@ VALUES ('USER', 1),
        ('USER', 2);
 
 INSERT INTO DISH (name, price)
-VALUES ( 'Breakfast', 123 ),
-       ('Lunch' , 100);
+VALUES ('Breakfast', 123),
+       ('Lunch', 100);
+
+INSERT INTO RESTAURANT(name)
+VALUES ('Macdonald`s'),
+       ('KFC'),
+       ('Burger King');
