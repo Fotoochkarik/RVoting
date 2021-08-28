@@ -12,11 +12,11 @@ public class DishTestData {
     public static final Dish breakfast = new Dish(BREAKFAST_ID, "Breakfast", 123);
     public static final Dish lunch = new Dish(LUNCH_ID, "Lunch", 100);
 
-    public static Dish getNew(){
-        return  new Dish(null, "New", 150);
+    public static Dish getNew() {
+        return new Dish(null, "New", 150);
     }
 
     public static Dish getUpdated() {
-        return new Dish(BREAKFAST_ID, "UpdatedName", 321 );
+        return new Dish(BREAKFAST_ID, "UpdatedName", 321);
     }
 }

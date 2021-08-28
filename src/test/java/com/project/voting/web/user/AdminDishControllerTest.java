@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.project.voting.TestUtil.userHttpBasic;
+import static com.project.voting.web.RestaurantTestData.MACDONALDS_ID;
 import static com.project.voting.web.user.DishTestData.*;
 import static com.project.voting.web.user.UserTestData.ADMIN_MAIL;
 import static com.project.voting.web.user.UserTestData.USER_MAIL;
@@ -98,6 +99,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(UserTestData.admin))
+                .param("restaurantId", String.valueOf(MACDONALDS_ID))
                 .content(JsonUtil.writeValue(newDish)));
 
         Dish created = MATCHER.readFromJson(action);
@@ -116,7 +118,6 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
-
     }
 
     @Test

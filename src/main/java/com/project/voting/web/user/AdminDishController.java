@@ -2,6 +2,7 @@ package com.project.voting.web.user;
 
 import com.project.voting.model.Dish;
 import com.project.voting.repository.DishRepository;
+import com.project.voting.repository.RestaurantRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -30,6 +31,9 @@ public class AdminDishController {
     @Autowired
     private DishRepository repository;
 
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+
     @GetMapping("/{id}")
     public ResponseEntity<Dish> get(@PathVariable int id) {
         log.info("get {} dish", id);
@@ -52,9 +56,10 @@ public class AdminDishController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish) {
-        log.info("create {}", dish);
+    public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish, @RequestParam("restaurantId") int restaurantId) {
         checkNew(dish);
+        dish.setRestaurant(restaurantRepository.getById(restaurantId));
+        log.info("create {} for restaurant {}", dish, restaurantRepository.findById(restaurantId));
         Dish created = repository.save(dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

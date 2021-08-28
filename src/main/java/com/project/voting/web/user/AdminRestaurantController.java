@@ -38,6 +38,14 @@ public class AdminRestaurantController {
         return ResponseEntity.of(repository.findById(id));
     }
 
+    @GetMapping("/with-dishes/{id}")
+    public Restaurant getWithDishes(
+//            @ApiIgnore
+            @PathVariable int id
+    ) {
+        return repository.getWithDishes(id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
