@@ -29,7 +29,7 @@ public class AdminDishController {
     static final String REST_URL = "/api/admin/restaurants/dishes";
 
     @Autowired
-    private DishRepository repository;
+    private DishRepository dishRepository;
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -37,22 +37,22 @@ public class AdminDishController {
     @GetMapping("/{id}")
     public ResponseEntity<Dish> get(@PathVariable int id) {
         log.info("get {} dish", id);
-        return ResponseEntity.of(repository.findById(id)
+        return ResponseEntity.of(dishRepository.findById(id)
 //                .filter(dish -> restaurantId == dish.getRestaurant().getId())
         );
     }
 
-    @GetMapping
-    public List<Dish> getAll() {
-        log.info("getAll");
-        return repository.findAll();
+    @GetMapping("/{id}/dishes")
+    public List<Dish> getAll( @PathVariable int id) {
+        log.info("getAll for restaurant {}", id);
+        return dishRepository.getAll(id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);
-        repository.deleteExisted(id);
+        dishRepository.deleteExisted(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -60,7 +60,7 @@ public class AdminDishController {
         checkNew(dish);
         dish.setRestaurant(restaurantRepository.getById(restaurantId));
         log.info("create {} for restaurant {}", dish, restaurantRepository.findById(restaurantId));
-        Dish created = repository.save(dish);
+        Dish created = dishRepository.save(dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -72,6 +72,6 @@ public class AdminDishController {
     public void update(@Valid @RequestBody Dish dish, @PathVariable int id) {
         log.info("update {} with id={}", dish, id);
         assureIdConsistent(dish, id);
-        repository.save(dish);
+        dishRepository.save(dish);
     }
 }

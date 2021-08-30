@@ -1,15 +1,14 @@
-package com.project.voting.web.user;
+package com.project.voting.web;
 
 import com.project.voting.model.Role;
 import com.project.voting.model.User;
 import com.project.voting.util.JsonUtil;
-import com.project.voting.web.MatcherFactory;
 
 import java.util.Collections;
 import java.util.Date;
 
 public class UserTestData {
-    public static final MatcherFactory.Matcher<User> MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "registered", "password");
+    public static final MatcherFactory.Matcher<User> MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "registered", "password", "votes");
 
     public static final int USER_ID = 1;
     public static final int ADMIN_ID = 2;

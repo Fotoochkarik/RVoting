@@ -4,6 +4,7 @@ import com.project.voting.model.Dish;
 import com.project.voting.repository.DishRepository;
 import com.project.voting.util.JsonUtil;
 import com.project.voting.web.AbstractControllerTest;
+import com.project.voting.web.UserTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,10 +13,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.project.voting.TestUtil.userHttpBasic;
+import static com.project.voting.web.DishTestData.*;
 import static com.project.voting.web.RestaurantTestData.MACDONALDS_ID;
-import static com.project.voting.web.user.DishTestData.*;
-import static com.project.voting.web.user.UserTestData.ADMIN_MAIL;
-import static com.project.voting.web.user.UserTestData.USER_MAIL;
+import static com.project.voting.web.UserTestData.ADMIN_MAIL;
+import static com.project.voting.web.UserTestData.USER_MAIL;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -62,7 +63,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
+        perform(MockMvcRequestBuilders.get(REST_URL + MACDONALDS_ID + "/dishes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MATCHER.contentJson(breakfast, lunch));

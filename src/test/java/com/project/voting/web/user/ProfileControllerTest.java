@@ -14,8 +14,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-
-import static com.project.voting.web.user.UserTestData.*;
+import static com.project.voting.web.UserTestData.*;
 import static com.project.voting.web.user.ProfileController.REST_URL;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

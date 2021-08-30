@@ -1,7 +1,9 @@
 package com.project.voting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "dish")
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Dish extends NamedEntity {
 
     @Column(name = "price", nullable = false)
@@ -26,9 +29,6 @@ public class Dish extends NamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Restaurant restaurant;
-
-    public Dish() {
-    }
 
     public Dish(Dish dish) {
         this(dish.id, dish.name, dish.price);

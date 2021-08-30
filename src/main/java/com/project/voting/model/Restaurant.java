@@ -29,10 +29,11 @@ public class Restaurant extends NamedEntity implements HasId {
     @JsonManagedReference
     private List<Dish> menu;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vote")
-////    @OrderBy("dateTime DESC")
-//    @JsonManagedReference
-//    private Set<Vote> votes;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+//    @OrderBy("dateTime DESC")
+//    https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
+    @JsonManagedReference(value = "restaurant_vote")
+    private List<Vote> votes;
 
     public Restaurant(Restaurant r) {
         this(r.id, r.name, r.registered);

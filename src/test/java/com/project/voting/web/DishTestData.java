@@ -1,7 +1,6 @@
-package com.project.voting.web.user;
+package com.project.voting.web;
 
 import com.project.voting.model.Dish;
-import com.project.voting.web.MatcherFactory;
 
 public class DishTestData {
     public static final MatcherFactory.Matcher<Dish> MATCHER = MatcherFactory.usingEqualsComparator(Dish.class);

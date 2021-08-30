@@ -4,6 +4,7 @@ import com.project.voting.model.Restaurant;
 import com.project.voting.repository.RestaurantRepository;
 import com.project.voting.util.JsonUtil;
 import com.project.voting.web.AbstractControllerTest;
+import com.project.voting.web.UserTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,8 +14,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.project.voting.TestUtil.userHttpBasic;
 import static com.project.voting.web.RestaurantTestData.*;
-import static com.project.voting.web.user.UserTestData.ADMIN_MAIL;
-import static com.project.voting.web.user.UserTestData.USER_MAIL;
+import static com.project.voting.web.UserTestData.ADMIN_MAIL;
+import static com.project.voting.web.UserTestData.USER_MAIL;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

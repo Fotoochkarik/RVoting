@@ -46,6 +46,14 @@ public class AdminRestaurantController {
         return repository.getWithDishes(id);
     }
 
+    @GetMapping("/with-votes/{id}")
+    public Restaurant getWithVotes(
+//            @ApiIgnore
+            @PathVariable int id
+    ) {
+        return repository.getWithVotes(id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {

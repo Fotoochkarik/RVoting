@@ -26,3 +26,7 @@ VALUES ('Breakfast', 123, 1),
        ('Dish9', 108, 3),
        ('Dish10', 109, 3);
 
+INSERT INTO VOTE (restaurant_id, user_id)
+VALUES (1, 1),
+       (2, 2),
+       (3, 2);
