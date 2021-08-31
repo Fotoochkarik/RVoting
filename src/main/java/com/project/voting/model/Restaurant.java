@@ -23,28 +23,28 @@ public class Restaurant extends NamedEntity implements HasId {
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Date registered = new Date();
+    private Date dateCreation = new Date();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @JsonManagedReference
     private List<Dish> menu;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-//    @OrderBy("dateTime DESC")
+    @OrderBy("dateCreation DESC")
 //    https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     @JsonManagedReference(value = "restaurant_vote")
     private List<Vote> votes;
 
     public Restaurant(Restaurant r) {
-        this(r.id, r.name, r.registered);
+        this(r.id, r.name, r.dateCreation);
     }
 
     public Restaurant(Integer id, String name) {
         this(id, name, new Date());
     }
 
-    public Restaurant(Integer id, String name, Date registered) {
+    public Restaurant(Integer id, String name, Date dateCreation) {
         super(id, name);
-        this.registered = registered;
+        this.dateCreation = dateCreation;
     }
 }

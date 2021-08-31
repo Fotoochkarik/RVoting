@@ -11,6 +11,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -18,6 +20,13 @@ import javax.validation.constraints.NotNull;
 @Table(name = "vote")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Vote extends BaseEntity implements HasId {
+
+    @Column(name = "limit_time", nullable = false)
+    private final LocalTime LIMIT_TIME_OF_VOTING = LocalTime.of(11, 0);
+
+    @Column(name = "date_creation", nullable = false)
+    @NotNull
+    private final LocalDate dateCreation = LocalDate.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

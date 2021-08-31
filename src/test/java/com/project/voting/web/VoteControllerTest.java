@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.project.voting.TestUtil.userHttpBasic;
-import static com.project.voting.web.RestaurantTestData.kfc;
+import static com.project.voting.web.RestaurantTestData.KFC_ID;
 import static com.project.voting.web.UserTestData.ADMIN_MAIL;
 import static com.project.voting.web.VoteTestData.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -72,7 +72,7 @@ class VoteControllerTest extends AbstractControllerTest {
     void create() throws Exception {
         Vote newVote = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .param("restaurantId", String.valueOf(kfc.id()))
+                .param("restaurantId", String.valueOf(KFC_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(UserTestData.user))
                 .content(JsonUtil.writeValue(newVote)));
@@ -82,24 +82,5 @@ class VoteControllerTest extends AbstractControllerTest {
         newVote.setId(newId);
         MATCHER.assertMatch(created, newVote);
         MATCHER.assertMatch(repository.getById(newId), newVote);
-    }
-
-//    @Test
-//    @WithUserDetails(value = ADMIN_MAIL)
-//    void update() throws Exception {
-//        Vote updated = getUpdated();
-//        updated.setId(null);
-//        perform(MockMvcRequestBuilders.put(REST_URL + ADMIN_VOTE_ID)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(JsonUtil.writeValue(updated)))
-//                .andDo(print())
-//                .andExpect(status().isNoContent());
-//
-//        MATCHER.assertMatch(repository.getById(ADMIN_VOTE_ID), getUpdated());
-//    }
-
-    @Test
-    void getAllWithRestaurant() {
-
     }
 }

@@ -5,7 +5,7 @@ import com.project.voting.model.Vote;
 import static com.project.voting.web.RestaurantTestData.*;
 
 public class VoteTestData {
-    public static final MatcherFactory.Matcher<Vote> MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Vote.class, "user", "restaurant");
+    public static final MatcherFactory.Matcher<Vote> MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Vote.class, "user", "restaurant", "dateCreation");
     public static final int USER_VOTE_ID = 1;
     public static final int ADMIN_VOTE_ID = 2;
     public static final int NOT_FOUND = 100;
