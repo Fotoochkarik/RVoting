@@ -17,7 +17,7 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "vote")
+@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_creation"}, name = "votes_unique_user_datecreation_idx")})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Vote extends BaseEntity implements HasId {
 
@@ -26,7 +26,7 @@ public class Vote extends BaseEntity implements HasId {
 
     @Column(name = "date_creation", nullable = false)
     @NotNull
-    private final LocalDate dateCreation = LocalDate.now();
+    private LocalDate dateCreation = LocalDate.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -45,8 +45,13 @@ public class Vote extends BaseEntity implements HasId {
     private Restaurant restaurant;
 
     public Vote(Integer id, User user, Restaurant restaurant) {
+        this(id, user, restaurant, LocalDate.now());
+    }
+
+    public Vote(Integer id, User user, Restaurant restaurant, LocalDate dateCreation) {
         super(id);
         this.user = user;
         this.restaurant = restaurant;
+        this.dateCreation = dateCreation;
     }
 }

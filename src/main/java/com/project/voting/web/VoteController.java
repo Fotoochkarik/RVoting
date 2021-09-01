@@ -1,9 +1,11 @@
 package com.project.voting.web;
 
+import com.project.voting.error.IllegalRequestDataException;
 import com.project.voting.model.Vote;
 import com.project.voting.repository.RestaurantRepository;
 import com.project.voting.repository.UserRepository;
 import com.project.voting.repository.VoteRepository;
+import com.project.voting.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,12 +63,12 @@ public class VoteController {
             @AuthenticationPrincipal AuthUser authUser,
             @RequestParam("restaurantId") int restaurantId
     ) {
-        LocalDateTime current = LocalDateTime.now();
+        LocalDateTime current = LocalDateTime.now(TimeUtil.clock);
         Vote newVote;
         Optional<Vote> vote = repository.findByUserIdAndDate(authUser.id(), current.toLocalDate());
         if (vote.isEmpty()) {
             newVote = new Vote(null, userRepository.getById(authUser.id()), restaurantRepository.getById(restaurantId));
-            log.info("create {} vote for restaurant {}", newVote.getDateCreation(), restaurantId);
+            log.info("create {} vote for restaurant {}", newVote, restaurantId);
             checkNew(newVote);
         } else {
             if (current.toLocalTime().isBefore(vote.get().getLIMIT_TIME_OF_VOTING())) {
@@ -74,7 +76,7 @@ public class VoteController {
                 newVote = vote.get();
                 newVote.setRestaurant(restaurantRepository.getById(restaurantId));
             } else {
-                throw new IllegalArgumentException("Time exceeded for voting " + vote.get().getLIMIT_TIME_OF_VOTING());
+                throw new IllegalRequestDataException("Time exceeded for voting " + vote.get().getLIMIT_TIME_OF_VOTING());
             }
         }
         Vote created = repository.save(newVote);

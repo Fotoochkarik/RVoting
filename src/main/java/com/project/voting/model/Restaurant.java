@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant extends NamedEntity implements HasId {
 
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "date_creation", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date dateCreation = new Date();
