@@ -1,4 +1,4 @@
-package com.project.voting.web.user;
+package com.project.voting.web.restaurant;
 
 import com.project.voting.model.Restaurant;
 import com.project.voting.repository.RestaurantRepository;

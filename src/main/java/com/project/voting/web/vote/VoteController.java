@@ -1,4 +1,4 @@
-package com.project.voting.web;
+package com.project.voting.web.vote;
 
 import com.project.voting.error.IllegalRequestDataException;
 import com.project.voting.model.Vote;
@@ -6,6 +6,7 @@ import com.project.voting.repository.RestaurantRepository;
 import com.project.voting.repository.UserRepository;
 import com.project.voting.repository.VoteRepository;
 import com.project.voting.util.TimeUtil;
+import com.project.voting.web.AuthUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

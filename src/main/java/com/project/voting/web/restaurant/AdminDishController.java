@@ -1,6 +1,7 @@
-package com.project.voting.web.user;
+package com.project.voting.web.restaurant;
 
 import com.project.voting.model.Dish;
+import com.project.voting.model.Restaurant;
 import com.project.voting.repository.DishRepository;
 import com.project.voting.repository.RestaurantRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ import static com.project.voting.util.validation.ValidationUtil.checkNew;
 @CacheConfig(cacheNames = "dishes")
 public class AdminDishController {
 
-    static final String REST_URL = "/api/admin/restaurants/dishes";
+    static final String REST_URL = "/api/admin/restaurant/";
 
     @Autowired
     private DishRepository dishRepository;
@@ -34,24 +35,24 @@ public class AdminDishController {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Dish> get(@PathVariable int id) {
-        log.info("get {} dish", id);
+    @GetMapping("{restaurant}/{id}")
+    public ResponseEntity<Dish> get(@PathVariable Restaurant restaurant, @PathVariable int id) {
+        log.info("get {} for restaurant {}", id, restaurant);
         return ResponseEntity.of(dishRepository.findById(id)
-//                .filter(dish -> restaurantId == dish.getRestaurant().getId())
+                .filter(dish -> restaurant.id() == dish.getRestaurant().getId())
         );
     }
 
-    @GetMapping("/{id}/dishes")
+    @GetMapping("{id}/dishes")
     public List<Dish> getAll( @PathVariable int id) {
         log.info("getAll for restaurant {}", id);
         return dishRepository.getAll(id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{restaurant}/dishes/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        log.info("delete {}", id);
+    public void delete(@PathVariable Restaurant restaurant, @PathVariable int id) {
+        log.info("delete {} from restaurant {}", id, restaurant);
         dishRepository.deleteExisted(id);
     }
 
@@ -67,10 +68,11 @@ public class AdminDishController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{restaurant}/dishes/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Dish dish, @PathVariable int id) {
-        log.info("update {} with id={}", dish, id);
+    public void update(@Valid @RequestBody Dish dish, @PathVariable Restaurant restaurant, @PathVariable int id) {
+        log.info("update {} with id={} for restaurant {}", dish, id, restaurant);
+        dish.setRestaurant(restaurant);
         assureIdConsistent(dish, id);
         dishRepository.save(dish);
     }

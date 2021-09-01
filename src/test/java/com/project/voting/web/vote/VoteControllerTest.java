@@ -1,9 +1,11 @@
-package com.project.voting.web;
+package com.project.voting.web.vote;
 
 import com.project.voting.model.Vote;
 import com.project.voting.repository.VoteRepository;
 import com.project.voting.util.JsonUtil;
 import com.project.voting.util.TimeUtil;
+import com.project.voting.web.AbstractControllerTest;
+import com.project.voting.web.UserTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
