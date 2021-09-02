@@ -167,10 +167,4 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
-
-    @Test
-    void getWithDishes() {
-        Restaurant mackdonalds = repository.getWithDishes(MACDONALDS_ID);
-        WITH_DISHES_MATCHER.assertMatch(mackdonalds, macdonalds);
-    }
 }

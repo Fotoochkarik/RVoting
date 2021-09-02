@@ -7,10 +7,10 @@ VALUES ('USER', 1),
        ('ADMIN', 2),
        ('USER', 2);
 
-INSERT INTO RESTAURANT(name)
-VALUES ('Macdonald`s'),
-       ('KFC'),
-       ('Burger King');
+INSERT INTO RESTAURANT(name, date_creation)
+VALUES ('Macdonald`s', '2021-08-30'),
+       ('KFC', '2021-08-29'),
+       ('Burger King', '2021-08-30');
 
 INSERT INTO DISH (name, price, restaurant_id)
 VALUES ('Breakfast', 123, 1),

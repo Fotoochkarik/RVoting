@@ -10,7 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -23,7 +23,7 @@ public class Restaurant extends NamedEntity implements HasId {
     @Column(name = "date_creation", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Date dateCreation = new Date();
+    private LocalDate dateCreation = LocalDate.now();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @JsonManagedReference
@@ -40,10 +40,10 @@ public class Restaurant extends NamedEntity implements HasId {
     }
 
     public Restaurant(Integer id, String name) {
-        this(id, name, new Date());
+        this(id, name, LocalDate.now());
     }
 
-    public Restaurant(Integer id, String name, Date dateCreation) {
+    public Restaurant(Integer id, String name, LocalDate dateCreation) {
         super(id, name);
         this.dateCreation = dateCreation;
     }
