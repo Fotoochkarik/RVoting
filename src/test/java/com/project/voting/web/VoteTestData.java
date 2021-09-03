@@ -13,7 +13,7 @@ public class VoteTestData {
     public static final int NOT_FOUND = 100;
 
     public static final Vote userVote = new Vote(USER_VOTE_ID, UserTestData.user, macdonalds, LocalDate.of(2021, 8, 30));
-    public static final Vote adminVote = new Vote(ADMIN_VOTE_ID, UserTestData.admin, kfc, LocalDate.of(2021, 8, 30));
+    public static final Vote adminVote = new Vote(ADMIN_VOTE_ID, UserTestData.admin, macdonalds, LocalDate.of(2021, 8, 30));
     public static final Vote adminVote2 = new Vote(ADMIN_VOTE_ID + 1, UserTestData.admin, burgerKing, LocalDate.of(2021, 8, 31));
 
     public static Vote getNew() {

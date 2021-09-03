@@ -3,6 +3,7 @@ package com.project.voting.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.voting.HasIdAndEmail;
+import com.project.voting.util.validation.NoHtml;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -13,6 +14,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
@@ -21,12 +24,15 @@ import java.util.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true, exclude = {"password"})
-public class User extends NamedEntity implements HasIdAndEmail {
+public class User extends NamedEntity implements HasIdAndEmail, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
     @Size(max = 100)
+    @NoHtml   // https://stackoverflow.com/questions/17480809
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -55,7 +61,7 @@ public class User extends NamedEntity implements HasIdAndEmail {
     private Set<Role> roles;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-//    @OrderBy("dateTime DESC")
+    @OrderBy("user DESC")
 //    https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     @JsonManagedReference(value = "user_vote")
     private List<Vote> votes;

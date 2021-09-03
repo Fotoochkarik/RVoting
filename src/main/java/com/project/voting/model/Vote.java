@@ -22,6 +22,7 @@ import java.time.LocalTime;
 public class Vote extends BaseEntity implements HasId {
 
     @Column(name = "limit_time", nullable = false)
+    @NotNull
     private final LocalTime LIMIT_TIME_OF_VOTING = LocalTime.of(11, 0);
 
     @Column(name = "date_creation", nullable = false)

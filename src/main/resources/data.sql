@@ -28,5 +28,5 @@ VALUES ('Breakfast', 123, 1),
 
 INSERT INTO VOTE (user_id, restaurant_id, date_creation, limit_time)
 VALUES (1, 1, '2021-08-30', '11:00:00'),
-       (2, 2, '2021-08-30', '11:00:00'),
+       (2, 1, '2021-08-30', '11:00:00'),
        (2, 3, '2021-08-31', '11:00:00');

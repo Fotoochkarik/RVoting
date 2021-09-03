@@ -6,10 +6,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface DishRepository extends BaseRepository<Dish> {
 
     @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId")
     List<Dish> getAll(@Param("restaurantId") int restaurantId);
+
+    Optional<Dish> findByIdAndRestaurantId(int id, int restaurantId);
 }

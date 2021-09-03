@@ -26,7 +26,7 @@ public class RestaurantTestData {
             MatcherFactory.usingAssertions(Restaurant.class,
 //     No need use ignoringAllOverriddenEquals, see https://assertj.github.io/doc/#breaking-changes
                     (a, e) -> assertThat(a).usingRecursiveComparison()
-                            .ignoringFields("dateCreation", "menu", "votes.user").isEqualTo(e),
+                            .ignoringFields("dateCreation", "menu", "votes.user", "votes.restaurant").isEqualTo(e),
                     (a, e) -> {
                         throw new UnsupportedOperationException();
                     });
@@ -42,14 +42,14 @@ public class RestaurantTestData {
 
     static {
         macdonalds.setMenu(List.of(breakfast, lunch));
-        macdonalds.setVotes(List.of(userVote));
-        kfc.setVotes(List.of(adminVote));
+        macdonalds.setVotes(List.of(userVote, adminVote));
+//        kfc.setVotes(List.of(adminVote));
         burgerKing.setVotes(List.of(adminVote2));
     }
 
 
     public static Restaurant getNew() {
-        return new Restaurant(null, "NewRestaurant");
+        return new Restaurant(null, "NewRestaurant", LocalDate.of(2021, 8, 30));
     }
 
     public static Restaurant getUpdated() {

@@ -2,6 +2,7 @@ package com.project.voting.web.restaurant;
 
 import com.project.voting.model.Dish;
 import com.project.voting.repository.DishRepository;
+import com.project.voting.to.DishTo;
 import com.project.voting.util.JsonUtil;
 import com.project.voting.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,8 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.project.voting.util.DishUtil.convertToDishTo;
+import static com.project.voting.util.DishUtil.createNewFromTo;
 import static com.project.voting.web.DishTestData.*;
 import static com.project.voting.web.RestaurantTestData.KFC_ID;
 import static com.project.voting.web.RestaurantTestData.MACDONALDS_ID;
@@ -104,7 +107,8 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        Dish newDish = getNew();
+        DishTo newTo = convertToDishTo(getNew());
+        Dish newDish = createNewFromTo(newTo);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("restaurantId", String.valueOf(MACDONALDS_ID))
@@ -142,7 +146,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        Dish updated = getUpdated();
+        DishTo updated = convertToDishTo(getUpdated());
         perform(MockMvcRequestBuilders.put(REST_URL + MACDONALDS_ID + "/dishes/" + BREAKFAST_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
@@ -155,7 +159,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateInvalid() throws Exception {
-        Dish invalid = new Dish(lunch);
+        DishTo invalid = convertToDishTo(new Dish(lunch));
         invalid.setName("");
         perform(MockMvcRequestBuilders.put(REST_URL + MACDONALDS_ID + "/dishes/" + LUNCH_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -167,7 +171,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateWithoutAccess() throws Exception {
-        Dish invalid = new Dish(lunch);
+        DishTo invalid = convertToDishTo(new Dish(lunch));
         perform(MockMvcRequestBuilders.put(REST_URL + MACDONALDS_ID + "/dishes/" + LUNCH_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))

@@ -2,18 +2,23 @@ package com.project.voting.web.restaurant;
 
 import com.project.voting.model.Restaurant;
 import com.project.voting.repository.RestaurantRepository;
+import com.project.voting.to.RestaurantTo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
+import static com.project.voting.util.RestaurantUtil.createNewFromTo;
+import static com.project.voting.util.RestaurantUtil.updateFromTo;
 import static com.project.voting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.project.voting.util.validation.ValidationUtil.checkNew;
 
@@ -46,10 +51,10 @@ public class AdminRestaurantController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
-        log.info("create {}", restaurant);
-        checkNew(restaurant);
-        Restaurant created = repository.save(restaurant);
+    public ResponseEntity<Restaurant> create(@Valid @RequestBody RestaurantTo restaurantTo) {
+        checkNew(restaurantTo);
+        log.info("create {}", restaurantTo);
+        Restaurant created = repository.save(createNewFromTo(restaurantTo));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -58,9 +63,11 @@ public class AdminRestaurantController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
-        log.info("update {} with id={}", restaurant, id);
-        assureIdConsistent(restaurant, id);
-        repository.save(restaurant);
+    @Transactional
+    public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
+        log.info("update {} with id={}", restaurantTo, id);
+        assureIdConsistent(restaurantTo, id);
+        Optional<Restaurant> restaurant = repository.findById(id);
+        restaurant.ifPresent(value -> repository.save(updateFromTo(value, restaurantTo)));
     }
 }
