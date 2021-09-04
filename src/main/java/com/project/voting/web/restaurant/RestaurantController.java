@@ -4,6 +4,8 @@ import com.project.voting.model.Restaurant;
 import com.project.voting.repository.RestaurantRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
+@CacheConfig(cacheNames = "restaurants")
 public class RestaurantController {
     static final String REST_URL = "/api/restaurants";
 
@@ -21,25 +24,20 @@ public class RestaurantController {
     private RestaurantRepository repository;
 
     @GetMapping
+    @Cacheable
     public List<Restaurant> getAll() {
         log.info("getAll with dishes");
         return repository.findAllWithDishes();
     }
 
     @GetMapping("/{id}/with-dishes")
-    public Restaurant getWithDishes(
-//            @ApiIgnore
-            @PathVariable int id
-    ) {
+    public Restaurant getWithDishes(@PathVariable int id) {
         log.info("get {} with dishes", id);
         return repository.getWithDishes(id);
     }
 
     @GetMapping("/{id}/with-votes")
-    public Restaurant getWithVotes(
-//            @ApiIgnore
-            @PathVariable int id
-    ) {
+    public Restaurant getWithVotes(@PathVariable int id) {
         log.info("get {} with votes", id);
         return repository.getWithVotes(id);
     }

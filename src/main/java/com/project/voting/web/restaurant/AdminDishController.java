@@ -9,6 +9,8 @@ import com.project.voting.to.DishTo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,6 @@ import static com.project.voting.util.validation.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-// TODO: cache only most requested data!
 @CacheConfig(cacheNames = "dishes")
 public class AdminDishController {
 
@@ -47,6 +48,7 @@ public class AdminDishController {
     }
 
     @GetMapping("{id}/dishes")
+    @Cacheable
     public List<Dish> getAll(@PathVariable int id) {
         log.info("getAll for restaurant {}", id);
         return dishRepository.getAll(id);
@@ -60,6 +62,7 @@ public class AdminDishController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Dish> create(@Valid @RequestBody DishTo dishTo, @RequestParam("restaurantId") int restaurantId) {
         checkNew(dishTo);
         Dish dish = createNewFromTo(dishTo);
@@ -75,6 +78,7 @@ public class AdminDishController {
     @PutMapping(value = "/{restaurant}/dishes/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
+    @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody DishTo dishTo, @PathVariable Restaurant restaurant, @PathVariable int id) {
         log.info("update {} with id={} for restaurant {}", dishTo, id, restaurant);
         assureIdConsistent(dishTo, id);
