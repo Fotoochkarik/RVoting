@@ -4,7 +4,7 @@ https://javaops.ru/view/topjava2
 
 A voting system for deciding where to have lunch.
 
-The REST API was developed and implemented using Hibernate / Spring / Spring-Boot without an external interface.
+The REST API developed and implemented using Hibernate / Spring / Spring-Boot without an external interface.
 
 [REST API documentation](http://localhost:9080/rvoting/swagger-ui.html)
 

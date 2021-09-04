@@ -121,19 +121,6 @@ class AdminDishControllerTest extends AbstractControllerTest {
         MATCHER.assertMatch(repository.getById(newId), newDish);
     }
 
-//    @Test
-//    @Transactional(propagation = Propagation.NEVER)
-//    @WithUserDetails(value = ADMIN_MAIL)
-//    void createDuplicate() throws Exception {
-//        Dish duplicate = new Dish(null, burger.getName(), 200 );
-//        perform(MockMvcRequestBuilders.post(REST_URL)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .param("restaurantId", String.valueOf(MACDONALDS_ID))
-//                .content(JsonUtil.writeValue(duplicate)))
-//                .andDo(print())
-//                .andExpect(status().isUnprocessableEntity());
-//    }
-
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {

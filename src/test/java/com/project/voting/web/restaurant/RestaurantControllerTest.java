@@ -42,25 +42,6 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(WITH_VOTES_MATCHER.contentJson(macdonalds));
     }
 
-//    @Test
-//    @WithUserDetails(value = USER_MAIL)
-//    void getAllWithVotes() throws Exception {
-//        perform(MockMvcRequestBuilders.get(REST_URL + "/with-votes"))
-//                .andExpect(status().isOk())
-//                .andDo(print())
-//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//                .andExpect(WITH_VOTES_MATCHER.contentJson(macdonalds, kfc, burgerKing));
-//    }
-//
-//    @Test
-//    @WithUserDetails(value = USER_MAIL)
-//    void getAll() throws Exception {
-//        perform(MockMvcRequestBuilders.get(REST_URL))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-//                .andExpect(WITH_DISHES_MATCHER.contentJson(macdonalds, kfc, burgerKing));
-// }
-
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getByDate() throws Exception {
