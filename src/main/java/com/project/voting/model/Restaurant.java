@@ -14,9 +14,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "restaurant")
 @Getter
 @Setter
+@Table(name = "restaurant", uniqueConstraints = {@UniqueConstraint(columnNames = {"date_creation", "name"},
+        name = "restaurants_unique_created_name_idx")})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant extends NamedEntity implements HasId {
 

@@ -1,9 +1,7 @@
 package com.project.voting.web.restaurant;
 
-import com.project.voting.repository.RestaurantRepository;
 import com.project.voting.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -18,9 +16,6 @@ class RestaurantControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = RestaurantController.REST_URL + "/";
 
-    @Autowired
-    private RestaurantRepository repository;
-
     @Test
     void getUnAuth() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL))
@@ -30,11 +25,11 @@ class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getWithDishes() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + MACDONALDS_ID + "/with-dishes"))
+        perform(MockMvcRequestBuilders.get(REST_URL + KFC_ID + "/with-dishes"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(WITH_DISHES_MATCHER.contentJson(macdonalds));
+                .andExpect(WITH_DISHES_MATCHER.contentJson(kfc));
     }
 
     @Test
@@ -63,10 +58,8 @@ class RestaurantControllerTest extends AbstractControllerTest {
 //        perform(MockMvcRequestBuilders.get(REST_URL))
 //                .andExpect(status().isOk())
 //                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-////                .andExpect(WITH_DISHES_MATCHER.contentJson(macdonalds, kfc, burgerKing));
-//
-//                WITH_DISHES_MATCHER.assertMatch(repository.findAllWithDishes(), macdonalds, kfc, burgerKing);
-//    }
+//                .andExpect(WITH_DISHES_MATCHER.contentJson(macdonalds, kfc, burgerKing));
+// }
 
     @Test
     @WithUserDetails(value = USER_MAIL)
@@ -76,6 +69,6 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentJson(macdonalds, burgerKing));
+                .andExpect(MATCHER.contentJson(burgerKing, burgerLab, macdonalds));
     }
 }

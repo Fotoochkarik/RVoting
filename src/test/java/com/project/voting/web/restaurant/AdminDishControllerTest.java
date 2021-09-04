@@ -34,17 +34,17 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + MACDONALDS_ID + "/" + BREAKFAST_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + MACDONALDS_ID + "/" + BURGER_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentJson(breakfast));
+                .andExpect(MATCHER.contentJson(burger));
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getNotExistForRestaurant() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + KFC_ID + "/" + BREAKFAST_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + KFC_ID + "/" + BURGER_ID))
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
@@ -52,7 +52,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getWithoutAccess() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + KFC_ID + "/" + BREAKFAST_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + KFC_ID + "/" + BURGER_ID))
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
@@ -76,22 +76,22 @@ class AdminDishControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + MACDONALDS_ID + "/dishes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentJson(breakfast, lunch));
+                .andExpect(MATCHER.contentJson(burger, bigBurger));
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + MACDONALDS_ID + "/dishes/" + BREAKFAST_ID))
+        perform(MockMvcRequestBuilders.delete(REST_URL + MACDONALDS_ID + "/dishes/" + BURGER_ID))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertFalse(repository.findById(BREAKFAST_ID).isPresent());
+        assertFalse(repository.findById(BURGER_ID).isPresent());
     }
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void deleteWithoutAccess() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + MACDONALDS_ID + "/dishes/" + BREAKFAST_ID))
+        perform(MockMvcRequestBuilders.delete(REST_URL + MACDONALDS_ID + "/dishes/" + BURGER_ID))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
@@ -121,6 +121,19 @@ class AdminDishControllerTest extends AbstractControllerTest {
         MATCHER.assertMatch(repository.getById(newId), newDish);
     }
 
+//    @Test
+//    @Transactional(propagation = Propagation.NEVER)
+//    @WithUserDetails(value = ADMIN_MAIL)
+//    void createDuplicate() throws Exception {
+//        Dish duplicate = new Dish(null, burger.getName(), 200 );
+//        perform(MockMvcRequestBuilders.post(REST_URL)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .param("restaurantId", String.valueOf(MACDONALDS_ID))
+//                .content(JsonUtil.writeValue(duplicate)))
+//                .andDo(print())
+//                .andExpect(status().isUnprocessableEntity());
+//    }
+
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
@@ -147,21 +160,21 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         DishTo updated = convertToDishTo(getUpdated());
-        perform(MockMvcRequestBuilders.put(REST_URL + MACDONALDS_ID + "/dishes/" + BREAKFAST_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL + MACDONALDS_ID + "/dishes/" + BURGER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        MATCHER.assertMatch(repository.getById(BREAKFAST_ID), getUpdated());
+        MATCHER.assertMatch(repository.getById(BURGER_ID), getUpdated());
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateInvalid() throws Exception {
-        DishTo invalid = convertToDishTo(new Dish(lunch));
+        DishTo invalid = convertToDishTo(new Dish(bigBurger));
         invalid.setName("");
-        perform(MockMvcRequestBuilders.put(REST_URL + MACDONALDS_ID + "/dishes/" + LUNCH_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL + MACDONALDS_ID + "/dishes/" + BIG_BURGER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
@@ -171,8 +184,8 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateWithoutAccess() throws Exception {
-        DishTo invalid = convertToDishTo(new Dish(lunch));
-        perform(MockMvcRequestBuilders.put(REST_URL + MACDONALDS_ID + "/dishes/" + LUNCH_ID)
+        DishTo invalid = convertToDishTo(new Dish(bigBurger));
+        perform(MockMvcRequestBuilders.put(REST_URL + MACDONALDS_ID + "/dishes/" + BIG_BURGER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())

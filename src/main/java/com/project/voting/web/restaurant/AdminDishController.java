@@ -1,5 +1,6 @@
 package com.project.voting.web.restaurant;
 
+import com.project.voting.error.NotFoundException;
 import com.project.voting.model.Dish;
 import com.project.voting.model.Restaurant;
 import com.project.voting.repository.DishRepository;
@@ -18,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import static com.project.voting.util.DishUtil.createNewFromTo;
 import static com.project.voting.util.DishUtil.updateFromTo;
@@ -78,11 +78,9 @@ public class AdminDishController {
     public void update(@Valid @RequestBody DishTo dishTo, @PathVariable Restaurant restaurant, @PathVariable int id) {
         log.info("update {} with id={} for restaurant {}", dishTo, id, restaurant);
         assureIdConsistent(dishTo, id);
-        Optional<Dish> dish = dishRepository.findById(id);
-        if (dish.isPresent()) {
-            updateFromTo(dish.get(), dishTo);
-            dish.get().setRestaurant(restaurant);
-            dishRepository.save(dish.get());
-        }
+        Dish dish = dishRepository.findById(id).orElseThrow(() -> new NotFoundException("Entity with id=" + id + " not found"));
+        updateFromTo(dish, dishTo);
+        dish.setRestaurant(restaurant);
+        dishRepository.save(dish);
     }
 }

@@ -17,7 +17,8 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_creation"}, name = "votes_unique_user_datecreation_idx")})
+@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_creation"},
+        name = "votes_unique_user_created_idx")})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Vote extends BaseEntity implements HasId {
 

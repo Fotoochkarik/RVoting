@@ -31,5 +31,6 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     @Query("SELECT r FROM Restaurant r")
     List<Restaurant> findAllWithVotes();
 
+    @EntityGraph(attributePaths = {"menu"}, type = EntityGraph.EntityGraphType.LOAD)
     List<Restaurant> findByDateCreation(LocalDate date);
 }
