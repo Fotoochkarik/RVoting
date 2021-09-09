@@ -109,9 +109,8 @@ class AdminDishControllerTest extends AbstractControllerTest {
     void create() throws Exception {
         DishTo newTo = convertToDishTo(getNew());
         Dish newDish = createNewFromTo(newTo);
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + MACDONALDS_ID + "/dishes")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("restaurantId", String.valueOf(MACDONALDS_ID))
                 .content(JsonUtil.writeValue(newDish)));
 
         Dish created = MATCHER.readFromJson(action);

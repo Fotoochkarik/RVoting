@@ -4,6 +4,9 @@ import com.project.voting.model.Dish;
 import com.project.voting.to.DishTo;
 import lombok.experimental.UtilityClass;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @UtilityClass
 public class DishUtil {
 
@@ -17,7 +20,13 @@ public class DishUtil {
         return dish;
     }
 
-    public static DishTo convertToDishTo(Dish dish){
+    public static DishTo convertToDishTo(Dish dish) {
         return new DishTo(null, dish.getName(), dish.getPrice());
+    }
+
+    public static List<DishTo> convertToDishTo(List<Dish> dishList) {
+        return dishList.stream()
+                .map(DishUtil::convertToDishTo)
+                .collect(Collectors.toList());
     }
 }

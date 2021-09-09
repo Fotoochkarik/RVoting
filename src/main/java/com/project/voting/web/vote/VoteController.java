@@ -9,10 +9,10 @@ import com.project.voting.util.TimeUtil;
 import com.project.voting.web.AuthUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.project.voting.util.validation.ValidationUtil.checkNew;
+import static com.project.voting.util.TimeUtil.LIMIT_TIME_OF_VOTING;
 
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,14 +51,8 @@ public class VoteController {
         return ResponseEntity.of(repository.findByIdAndUserId(id, authUser.id()));
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        log.info("delete {} vote", id);
-        repository.deleteExisted(id);
-    }
-
     @PostMapping
+    @Transactional
     public ResponseEntity<Vote> create(
 //            @ApiIgnore
             @AuthenticationPrincipal AuthUser authUser,
@@ -70,14 +64,13 @@ public class VoteController {
         if (vote.isEmpty()) {
             newVote = new Vote(null, userRepository.getById(authUser.id()), restaurantRepository.getById(restaurantId));
             log.info("create {} vote for restaurant {}", newVote, restaurantId);
-            checkNew(newVote);
         } else {
-            if (current.toLocalTime().isBefore(vote.get().getLIMIT_TIME_OF_VOTING())) {
+            if (current.toLocalTime().isBefore(LIMIT_TIME_OF_VOTING)) {
                 log.info("update restaurant {} for vote  {}", restaurantId, vote);
                 newVote = vote.get();
                 newVote.setRestaurant(restaurantRepository.getById(restaurantId));
             } else {
-                throw new IllegalRequestDataException("Time exceeded for voting " + vote.get().getLIMIT_TIME_OF_VOTING());
+                throw new IllegalRequestDataException("Time exceeded for voting " + LIMIT_TIME_OF_VOTING);
             }
         }
         Vote created = repository.save(newVote);

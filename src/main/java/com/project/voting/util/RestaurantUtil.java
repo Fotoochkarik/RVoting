@@ -8,12 +8,11 @@ import lombok.experimental.UtilityClass;
 public class RestaurantUtil {
 
     public static Restaurant createNewFromTo(RestaurantTo restaurantTo) {
-        return new Restaurant(null, restaurantTo.getName(), restaurantTo.getDateCreation());
+        return new Restaurant(null, restaurantTo.getName());
     }
 
     public static Restaurant updateFromTo(Restaurant restaurant, RestaurantTo restaurantTo) {
         restaurant.setName(restaurantTo.getName());
-        restaurant.setDateCreation(restaurantTo.getDateCreation());
         return restaurant;
     }
 }

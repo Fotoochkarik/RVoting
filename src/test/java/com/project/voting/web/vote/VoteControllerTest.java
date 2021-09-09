@@ -22,7 +22,6 @@ import static com.project.voting.web.RestaurantTestData.KFC_ID;
 import static com.project.voting.web.RestaurantTestData.MACDONALDS_ID;
 import static com.project.voting.web.UserTestData.ADMIN_MAIL;
 import static com.project.voting.web.VoteTestData.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,30 +49,6 @@ class VoteControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MATCHER.contentJson(adminVote));
-    }
-
-    @Test
-    void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + ADMIN_VOTE_ID)
-                .with(userHttpBasic(UserTestData.admin)))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-        assertFalse(repository.findById(ADMIN_VOTE_ID).isPresent());
-    }
-
-    @Test
-    void deleteWithoutAccess() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + ADMIN_VOTE_ID))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    void deleteNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + NOT_FOUND)
-                .with(userHttpBasic(UserTestData.admin)))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test

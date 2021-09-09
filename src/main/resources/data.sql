@@ -7,16 +7,16 @@ VALUES ('USER', 1),
        ('ADMIN', 2),
        ('USER', 2);
 
-INSERT INTO RESTAURANT(name, date_creation)
-VALUES ('Macdonald`s', '2021-08-30'),
-       ('KFC', '2021-08-29'),
-       ('Burger King', '2021-08-30'),
-       ('Burger Lab', '2021-08-30'),
-       ('Hesburger', now()),
-       ('Carl’s Jr.', now()),
-       ('Black Star Burger', now());
+INSERT INTO RESTAURANT(name)
+VALUES ('Macdonald`s'),
+       ('KFC'),
+       ('Burger King'),
+       ('Burger Lab'),
+       ('Hesburger'),
+       ('Carl’s Jr.'),
+       ('Black Star Burger');
 
-INSERT INTO DISH (date_creation, name, price, restaurant_id)
+INSERT INTO DISH (date_of_use, name, price, restaurant_id)
 VALUES ('2021-08-30', 'Burger', 123, 1),
        ('2021-08-30', 'Big Burger', 100, 1),
        ('2021-08-29', 'Dish1', 100, 2),
@@ -41,7 +41,7 @@ VALUES ('2021-08-30', 'Burger', 123, 1),
        (now(), 'Dish20', 118, 7),
        (now(), 'Dish21', 119, 7);
 
-INSERT INTO VOTE (user_id, restaurant_id, date_creation, limit_time)
-VALUES (1, 1, '2021-08-30', '11:00:00'),
-       (2, 1, '2021-08-30', '11:00:00'),
-       (2, 3, '2021-08-31', '11:00:00');
+INSERT INTO VOTE (user_id, restaurant_id, date_creation)
+VALUES (1, 1, '2021-08-30'),
+       (2, 1, '2021-08-30'),
+       (2, 3, '2021-08-31');

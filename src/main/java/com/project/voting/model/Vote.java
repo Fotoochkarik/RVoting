@@ -12,7 +12,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -21,10 +20,6 @@ import java.time.LocalTime;
         name = "votes_unique_user_created_idx")})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Vote extends BaseEntity implements HasId {
-
-    @Column(name = "limit_time", nullable = false)
-    @NotNull
-    private final LocalTime LIMIT_TIME_OF_VOTING = LocalTime.of(11, 0);
 
     @Column(name = "date_creation", nullable = false)
     @NotNull
