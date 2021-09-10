@@ -48,11 +48,13 @@ public class RestaurantController {
     @GetMapping("/{id}/menu/by")
     public List<DishTo> getMenuByDate(@PathVariable int id,
                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        log.info("get {} with dishes for a date {}", id, date);
         return convertToDishTo(dishRepository.getMenuByDateOfUse(id, date));
     }
 
     @GetMapping("/{id}/menu")
     public List<DishTo> getCurrentMenu(@PathVariable int id) {
+        log.info("get {} with dishes for today {}", id, LocalDate.now());
         return convertToDishTo(dishRepository.getMenuByDateOfUse(id, LocalDate.now()));
     }
 }
