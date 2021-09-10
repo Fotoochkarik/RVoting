@@ -11,8 +11,8 @@ public class RestaurantUtil {
         return new Restaurant(null, restaurantTo.getName());
     }
 
-    public static Restaurant updateFromTo(Restaurant restaurant, RestaurantTo restaurantTo) {
-        restaurant.setName(restaurantTo.getName());
-        return restaurant;
+    public static Restaurant convertFromTo(RestaurantTo restaurantTo) {
+
+        return new Restaurant(restaurantTo.getId(), restaurantTo.getName());
     }
 }

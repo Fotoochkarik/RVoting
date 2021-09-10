@@ -27,7 +27,7 @@ public class Dish extends NamedEntity {
 
     @Column(name = "price", nullable = false)
     @NotNull
-    @Range(min = 10, max = 50000)
+    @Range(max = 5000000)
     private Integer price;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -18,10 +18,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
+import static com.project.voting.util.RestaurantUtil.convertFromTo;
 import static com.project.voting.util.RestaurantUtil.createNewFromTo;
-import static com.project.voting.util.RestaurantUtil.updateFromTo;
 import static com.project.voting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.project.voting.util.validation.ValidationUtil.checkNew;
 
@@ -74,7 +73,6 @@ public class AdminRestaurantController {
     public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
         log.info("update {} with id={}", restaurantTo, id);
         assureIdConsistent(restaurantTo, id);
-        Optional<Restaurant> restaurant = repository.findById(id);
-        restaurant.ifPresent(value -> repository.save(updateFromTo(value, restaurantTo)));
+        repository.save(convertFromTo(restaurantTo));
     }
 }

@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class DishTo extends NamedTo implements HasId {
 
     @NotNull
-    @Range(max = 50000)
+    @Range(max = 5000000)
     Integer price;
 
     public DishTo(Integer id, String name, Integer price) {

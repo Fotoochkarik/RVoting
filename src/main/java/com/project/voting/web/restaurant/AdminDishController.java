@@ -36,7 +36,7 @@ public class AdminDishController {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    @GetMapping("{restaurantId}/{id}")
+    @GetMapping("{restaurantId}/dishes/{id}")
     public ResponseEntity<Dish> get(@PathVariable int restaurantId, @PathVariable int id) {
         log.info("get {} for restaurant {}", id, restaurantId);
         return ResponseEntity.of(dishRepository.findByIdAndRestaurantId(id, restaurantId));
@@ -63,7 +63,7 @@ public class AdminDishController {
         log.info("create {} for restaurant {}", dish, restaurantRepository.findById(restaurantId));
         Dish created = dishRepository.save(dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(REST_URL + "/{restaurantId}/dishes")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }

@@ -34,7 +34,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + MACDONALDS_ID + "/" + BURGER_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + MACDONALDS_ID + "/dishes/" + BURGER_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
