@@ -6,8 +6,6 @@ import com.project.voting.repository.RestaurantRepository;
 import com.project.voting.to.DishTo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,6 @@ import static com.project.voting.util.DishUtil.convertToDishTo;
 @RestController
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-@CacheConfig(cacheNames = "restaurants")
 public class RestaurantController {
     static final String REST_URL = "/api/restaurants";
 
@@ -31,7 +28,6 @@ public class RestaurantController {
     private DishRepository dishRepository;
 
     @GetMapping
-    @Cacheable
     public List<Restaurant> getAll() {
         log.info("getAll with dishes");
         return repository.findAllWithDishes();
