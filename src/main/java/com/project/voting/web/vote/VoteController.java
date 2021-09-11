@@ -55,40 +55,6 @@ public class VoteController {
         return ResponseEntity.of(repository.findByIdAndUserId(id, authUser.id()));
     }
 
-//    @Transactional
-//    @PostMapping(value = "/{restaurantId}")
-//    public ResponseEntity<Vote> create(@AuthenticationPrincipal AuthUser authUser,
-//                                       @PathVariable("restaurantId") int restaurantId) {
-//        Optional<Vote> vote = getForToday(authUser.id());
-//
-//        if (vote.isEmpty()) {
-//            vote = Optional.of(new Vote(null, userRepository.getById(authUser.id()), restaurantRepository.getById(restaurantId)));
-//            log.info("create {} vote for restaurant {}", vote, restaurantId);
-//        }
-//        Vote created = repository.save(vote.get());
-//        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path(REST_URL + "/{id}")
-//                .buildAndExpand(created.getId()).toUri();
-//        return ResponseEntity.created(uriOfNewResource).body(created);
-//    }
-//
-//    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @Transactional
-//    public void change(@RequestBody Vote vote, @PathVariable int id) {
-//        assureIdConsistent(vote, id);
-//        if (getForToday(id).isPresent()) {
-//            if (LocalTime.now(TimeUtil.clock).isBefore(LIMIT_TIME_OF_VOTING)) {
-//                log.info("update restaurant {} for vote  {}", vote.getRestaurant(), vote);
-////                vote.setRestaurant(restaurantRepository.getById(restaurantId));
-//                repository.save(vote);
-//            } else {
-//                throw new IllegalRequestDataException("Time exceeded for voting " + LIMIT_TIME_OF_VOTING);
-//            }
-//        }
-//    }
-
-
     @PostMapping
     @Transactional
     public ResponseEntity<Vote> create(@AuthenticationPrincipal AuthUser authUser,
