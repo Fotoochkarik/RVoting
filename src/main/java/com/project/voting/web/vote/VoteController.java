@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -54,6 +55,40 @@ public class VoteController {
         return ResponseEntity.of(repository.findByIdAndUserId(id, authUser.id()));
     }
 
+//    @Transactional
+//    @PostMapping(value = "/{restaurantId}")
+//    public ResponseEntity<Vote> create(@AuthenticationPrincipal AuthUser authUser,
+//                                       @PathVariable("restaurantId") int restaurantId) {
+//        Optional<Vote> vote = getForToday(authUser.id());
+//
+//        if (vote.isEmpty()) {
+//            vote = Optional.of(new Vote(null, userRepository.getById(authUser.id()), restaurantRepository.getById(restaurantId)));
+//            log.info("create {} vote for restaurant {}", vote, restaurantId);
+//        }
+//        Vote created = repository.save(vote.get());
+//        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path(REST_URL + "/{id}")
+//                .buildAndExpand(created.getId()).toUri();
+//        return ResponseEntity.created(uriOfNewResource).body(created);
+//    }
+//
+//    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @Transactional
+//    public void change(@RequestBody Vote vote, @PathVariable int id) {
+//        assureIdConsistent(vote, id);
+//        if (getForToday(id).isPresent()) {
+//            if (LocalTime.now(TimeUtil.clock).isBefore(LIMIT_TIME_OF_VOTING)) {
+//                log.info("update restaurant {} for vote  {}", vote.getRestaurant(), vote);
+////                vote.setRestaurant(restaurantRepository.getById(restaurantId));
+//                repository.save(vote);
+//            } else {
+//                throw new IllegalRequestDataException("Time exceeded for voting " + LIMIT_TIME_OF_VOTING);
+//            }
+//        }
+//    }
+
+
     @PostMapping
     @Transactional
     public ResponseEntity<Vote> create(@AuthenticationPrincipal AuthUser authUser,
@@ -65,7 +100,7 @@ public class VoteController {
         } else {
             if (LocalTime.now(TimeUtil.clock).isBefore(LIMIT_TIME_OF_VOTING)) {
                 vote.get().setRestaurant(restaurantRepository.getById(restaurantId));
-                change(vote.get(), vote.get().id());
+                change(authUser, vote.get(), vote.get().id());
             } else {
                 throw new IllegalRequestDataException("Time exceeded for voting " + LIMIT_TIME_OF_VOTING);
             }
@@ -80,9 +115,10 @@ public class VoteController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void change(@RequestBody Vote vote, @PathVariable int id) {
+    public void change(@AuthenticationPrincipal AuthUser authUser, @RequestBody Vote vote, @PathVariable int id) {
+        Assert.notNull(vote, "Vote must not be null");
         assureIdConsistent(vote, id);
-        if (getForToday(id).isPresent()) {
+        if (getForToday(authUser.id()).isPresent()) {
             if (LocalTime.now(TimeUtil.clock).isBefore(LIMIT_TIME_OF_VOTING)) {
                 log.info("update restaurant {} for vote  {}", vote.getRestaurant(), vote);
                 repository.save(vote);

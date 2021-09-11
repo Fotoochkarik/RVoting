@@ -21,6 +21,6 @@ public class VoteTestData {
     }
 
     public static Vote getUpdated() {
-        return new Vote(ADMIN_VOTE_ID, UserTestData.admin, macdonalds, LocalDate.of(2021, 8, 30));
+        return new Vote(ADMIN_VOTE_ID, UserTestData.admin, kfc, LocalDate.of(2021, 8, 30));
     }
 }
