@@ -24,6 +24,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = true, exclude = {"password", "registered", "votes"})
 @ToString(callSuper = true, exclude = {"password"})
 //https://stackoverflow.com/a/50146162
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)

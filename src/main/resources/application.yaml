@@ -1,3 +1,7 @@
+#  https://stackoverflow.com/questions/21083170/how-to-configure-port-for-a-spring-boot-application
+server:
+  port: 9080
+
 #  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 spring:
   jpa:
@@ -39,8 +43,12 @@ logging:
     root: WARN
     com.project.voting: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+  #  https://stackoverflow.com/a/61945338
+  file:
+    name: logs/rvoting-log-file.log
 
 server.servlet:
+  context-path: /rvoting
   encoding:
     charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
     enabled: true # Enable http encoding support

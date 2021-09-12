@@ -1,10 +1,7 @@
 package com.project.voting.model;
 
 import com.project.voting.util.validation.NoHtml;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -15,6 +12,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = true)
 public abstract class NamedEntity extends BaseEntity {
 
     @NotBlank

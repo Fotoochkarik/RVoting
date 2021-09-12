@@ -51,12 +51,11 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void createNewVote() throws Exception {
+    void createNew() throws Exception {
 //        https://www.baeldung.com/java-override-system-time#mocking-the-localdatetimenow-method
         TimeUtil.clock = Clock.fixed(Instant.parse("2021-08-31T12:15:30.00Z"), ZoneId.of("UTC"));
         Vote newVote = getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .param("restaurantId", String.valueOf(KFC_ID))
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "vote/" + KFC_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(UserTestData.user))
                 .content(JsonUtil.writeValue(newVote)))
@@ -70,7 +69,7 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void changeVoteBeforeLimitedTime() throws Exception {
+    void changeBeforeLimitedTime() throws Exception {
 //        https://www.baeldung.com/java-override-system-time#mocking-the-localdatetimenow-method
         TimeUtil.clock = Clock.fixed(Instant.parse("2021-08-30T10:40:59.00Z"), ZoneId.of("UTC"));
         Vote updated = getUpdated();
@@ -85,7 +84,7 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void changeVoteAfterLimitedTime() throws Exception {
+    void changeAfterLimitedTime() throws Exception {
 //        https://www.baeldung.com/java-override-system-time#mocking-the-localdatetimenow-method
         TimeUtil.clock = Clock.fixed(Instant.parse("2021-08-30T12:40:59.00Z"), ZoneId.of("UTC"));
         Vote updated = getUpdated();

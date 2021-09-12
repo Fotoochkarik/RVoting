@@ -50,15 +50,16 @@ public class VoteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vote> get(@AuthenticationPrincipal AuthUser authUser, @PathVariable int id) {
+    public ResponseEntity<Vote> get(@AuthenticationPrincipal AuthUser authUser,
+                                    @PathVariable int id) {
         log.info("get {} vote for user {}", id, authUser.id());
         return ResponseEntity.of(repository.findByIdAndUserId(id, authUser.id()));
     }
 
-    @PostMapping
+    @PostMapping(value = "vote/{restaurantId}")
     @Transactional
     public ResponseEntity<Vote> create(@AuthenticationPrincipal AuthUser authUser,
-                                       @RequestParam("restaurantId") int restaurantId) {
+                                       @PathVariable int restaurantId) {
         Optional<Vote> vote = getForToday(authUser.id());
         if (vote.isEmpty()) {
             vote = Optional.of(new Vote(null, userRepository.getById(authUser.id()), restaurantRepository.getById(restaurantId)));
@@ -74,7 +75,9 @@ public class VoteController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void change(@AuthenticationPrincipal AuthUser authUser, @RequestBody Vote vote, @PathVariable int id) {
+    public void change(@AuthenticationPrincipal AuthUser authUser,
+                       @RequestBody Vote vote,
+                       @PathVariable int id) {
         Assert.notNull(vote, "Vote must not be null");
         assureIdConsistent(vote, id);
         if (getForToday(authUser.id()).isPresent()) {

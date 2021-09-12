@@ -8,7 +8,7 @@ import static com.project.voting.web.DishTestData.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RestaurantTestData {
-    public static final MatcherFactory.Matcher<Restaurant> MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class, "menu", "votes");
+    public static final MatcherFactory.Matcher<Restaurant> MATCHER = MatcherFactory.usingEqualsComparator(Restaurant.class);
 
     public static final MatcherFactory.Matcher<Restaurant> WITH_DISHES_MATCHER =
             MatcherFactory.usingAssertions(Restaurant.class,
