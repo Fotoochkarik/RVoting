@@ -63,13 +63,6 @@ public class VoteController {
         if (vote.isEmpty()) {
             vote = Optional.of(new Vote(null, userRepository.getById(authUser.id()), restaurantRepository.getById(restaurantId)));
             log.info("create {} vote for restaurant {}", vote, restaurantId);
-        } else {
-            if (LocalTime.now(TimeUtil.clock).isBefore(LIMIT_TIME_OF_VOTING)) {
-                vote.get().setRestaurant(restaurantRepository.getById(restaurantId));
-                change(authUser, vote.get(), vote.get().id());
-            } else {
-                throw new IllegalRequestDataException("Time exceeded for voting " + LIMIT_TIME_OF_VOTING);
-            }
         }
         Vote created = repository.save(vote.get());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()

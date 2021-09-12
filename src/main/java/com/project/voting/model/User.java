@@ -1,7 +1,8 @@
 package com.project.voting.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.project.voting.HasIdAndEmail;
 import com.project.voting.util.validation.NoHtml;
 import lombok.*;
@@ -24,6 +25,8 @@ import java.util.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true, exclude = {"password"})
+//https://stackoverflow.com/a/50146162
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -62,8 +65,6 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("user DESC")
-//    https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
-    @JsonManagedReference(value = "user_vote")
     private List<Vote> votes;
 
     public User(User u) {

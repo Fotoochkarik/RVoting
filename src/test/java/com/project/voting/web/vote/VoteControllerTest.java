@@ -19,7 +19,6 @@ import java.time.ZoneId;
 
 import static com.project.voting.TestUtil.userHttpBasic;
 import static com.project.voting.web.RestaurantTestData.KFC_ID;
-import static com.project.voting.web.RestaurantTestData.MACDONALDS_ID;
 import static com.project.voting.web.UserTestData.ADMIN_MAIL;
 import static com.project.voting.web.VoteTestData.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -75,13 +74,12 @@ class VoteControllerTest extends AbstractControllerTest {
 //        https://www.baeldung.com/java-override-system-time#mocking-the-localdatetimenow-method
         TimeUtil.clock = Clock.fixed(Instant.parse("2021-08-30T10:40:59.00Z"), ZoneId.of("UTC"));
         Vote updated = getUpdated();
-        perform(MockMvcRequestBuilders.post(REST_URL)
-                .param("restaurantId", String.valueOf(MACDONALDS_ID))
+        perform(MockMvcRequestBuilders.put(REST_URL + ADMIN_VOTE_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(UserTestData.admin))
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isNoContent());
 
         MATCHER.assertMatch(repository.getById(ADMIN_VOTE_ID), getUpdated());
     }
@@ -91,8 +89,7 @@ class VoteControllerTest extends AbstractControllerTest {
 //        https://www.baeldung.com/java-override-system-time#mocking-the-localdatetimenow-method
         TimeUtil.clock = Clock.fixed(Instant.parse("2021-08-30T12:40:59.00Z"), ZoneId.of("UTC"));
         Vote updated = getUpdated();
-        perform(MockMvcRequestBuilders.post(REST_URL)
-                .param("restaurantId", String.valueOf(MACDONALDS_ID))
+        perform(MockMvcRequestBuilders.put(REST_URL + ADMIN_VOTE_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(UserTestData.admin))
                 .content(JsonUtil.writeValue(updated)))

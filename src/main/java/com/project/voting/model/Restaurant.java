@@ -1,6 +1,8 @@
 package com.project.voting.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.project.voting.HasId;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,6 +17,8 @@ import java.util.List;
 @Setter
 @Table(name = "restaurant", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "restaurants_unique_name_idx")})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+//https://stackoverflow.com/a/50146162
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Restaurant extends NamedEntity implements HasId {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
@@ -23,8 +27,6 @@ public class Restaurant extends NamedEntity implements HasId {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("dateCreation DESC")
-//    https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
-    @JsonManagedReference(value = "restaurant_vote")
     private List<Vote> votes;
 
     public Restaurant(Restaurant r) {
