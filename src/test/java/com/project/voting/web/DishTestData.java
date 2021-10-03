@@ -79,7 +79,7 @@ public class DishTestData {
     public static final Dish dish32 = new Dish(DISH32_ID, "Dish32", 121);
 
     public static Dish getNew() {
-        return new Dish(null, "New", 150);
+        return new Dish(null, LocalDate.now(), "New", 150);
     }
 
     public static Dish getUpdated() {

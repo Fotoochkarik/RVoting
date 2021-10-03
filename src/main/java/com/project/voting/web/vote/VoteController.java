@@ -1,6 +1,7 @@
 package com.project.voting.web.vote;
 
 import com.project.voting.error.IllegalRequestDataException;
+import com.project.voting.error.NotFoundException;
 import com.project.voting.model.Vote;
 import com.project.voting.repository.RestaurantRepository;
 import com.project.voting.repository.UserRepository;
@@ -62,7 +63,8 @@ public class VoteController {
                                        @PathVariable int restaurantId) {
         Optional<Vote> vote = getForToday(authUser.id());
         if (vote.isEmpty()) {
-            vote = Optional.of(new Vote(null, userRepository.getById(authUser.id()), restaurantRepository.getById(restaurantId)));
+            vote = Optional.of(new Vote(null, userRepository.findById(authUser.id()).orElseThrow(() -> new NotFoundException("Not found " + authUser.id())),
+                    restaurantRepository.findById(restaurantId).orElseThrow(() -> new IllegalRequestDataException("Not found " + restaurantId))));
             log.info("create {} vote for restaurant {}", vote, restaurantId);
         }
         Vote created = repository.save(vote.get());

@@ -5,9 +5,6 @@ import com.project.voting.repository.RestaurantRepository;
 import com.project.voting.to.RestaurantTo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +24,6 @@ import static com.project.voting.util.validation.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-//@CacheConfig(cacheNames = "restaurants")
 public class AdminRestaurantController {
     static final String REST_URL = "/api/admin/restaurants";
 
@@ -35,7 +31,6 @@ public class AdminRestaurantController {
     private RestaurantRepository repository;
 
     @GetMapping
-//    @Cacheable
     public List<Restaurant> getAll() {
         log.info("getAll");
         return repository.findAll();
@@ -55,7 +50,6 @@ public class AdminRestaurantController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @CacheEvict(cacheNames = "restaurants", allEntries = true)
     public ResponseEntity<Restaurant> create(@Valid @RequestBody RestaurantTo restaurantTo) {
         checkNew(restaurantTo);
         log.info("create {}", restaurantTo);
@@ -68,7 +62,6 @@ public class AdminRestaurantController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @CacheEvict(cacheNames = "restaurants", allEntries = true)
     @Transactional
     public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
         log.info("update {} with id={}", restaurantTo, id);

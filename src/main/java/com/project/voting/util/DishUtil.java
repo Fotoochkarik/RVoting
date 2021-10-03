@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class DishUtil {
 
     public static Dish createNewFromTo(DishTo dishTo) {
-        return new Dish(null, dishTo.getName(), dishTo.getPrice());
+        return new Dish(null, dishTo.getDateOfUse(), dishTo.getName(), dishTo.getPrice());
     }
 
     public static Dish updateFromTo(Dish dish, DishTo dishTo) {
@@ -21,7 +21,7 @@ public class DishUtil {
     }
 
     public static DishTo convertToDishTo(Dish dish) {
-        return new DishTo(dish.getId(), dish.getName(), dish.getPrice());
+        return new DishTo(dish.getId(), dish.getDateOfUse(), dish.getName(), dish.getPrice());
     }
 
     public static List<DishTo> convertToDishTo(List<Dish> dishList) {
