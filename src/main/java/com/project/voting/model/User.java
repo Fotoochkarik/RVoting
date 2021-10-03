@@ -27,7 +27,7 @@ import java.util.*;
 @EqualsAndHashCode(callSuper = true, exclude = {"password", "registered", "votes"})
 @ToString(callSuper = true, exclude = {"password"})
 //https://stackoverflow.com/a/50146162
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.None.class)
 public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

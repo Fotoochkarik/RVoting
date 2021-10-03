@@ -39,12 +39,6 @@ public class RestaurantController {
         return repository.getWithDishes(id);
     }
 
-    @GetMapping("/{id}/with-votes")
-    public Restaurant getWithVotes(@PathVariable int id) {
-        log.info("get {} with votes", id);
-        return repository.getWithVotes(id);
-    }
-
     @GetMapping("/{id}/menu/by")
     public List<DishTo> getMenuByDate(@PathVariable int id,
                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {

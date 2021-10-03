@@ -17,7 +17,7 @@ import java.sql.SQLException;
 
 @Configuration
 @Slf4j
-@EnableCaching
+//@EnableCaching
 public class AppConfig {
 
     @Bean(initMethod = "start", destroyMethod = "stop")

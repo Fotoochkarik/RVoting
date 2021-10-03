@@ -31,14 +31,4 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(WITH_DISHES_MATCHER.contentJson(kfc));
     }
-
-    @Test
-    @WithUserDetails(value = USER_MAIL)
-    void getWithVotes() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + MACDONALDS_ID + "/with-votes"))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(WITH_VOTES_MATCHER.contentJson(macdonalds));
-    }
 }

@@ -27,7 +27,7 @@ import static com.project.voting.util.validation.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-@CacheConfig(cacheNames = "restaurants")
+//@CacheConfig(cacheNames = "restaurants")
 public class AdminRestaurantController {
     static final String REST_URL = "/api/admin/restaurants";
 
@@ -35,7 +35,7 @@ public class AdminRestaurantController {
     private RestaurantRepository repository;
 
     @GetMapping
-    @Cacheable
+//    @Cacheable
     public List<Restaurant> getAll() {
         log.info("getAll");
         return repository.findAll();
@@ -55,7 +55,7 @@ public class AdminRestaurantController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @CacheEvict(cacheNames = "restaurants", allEntries = true)
+//    @CacheEvict(cacheNames = "restaurants", allEntries = true)
     public ResponseEntity<Restaurant> create(@Valid @RequestBody RestaurantTo restaurantTo) {
         checkNew(restaurantTo);
         log.info("create {}", restaurantTo);
@@ -68,7 +68,7 @@ public class AdminRestaurantController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(cacheNames = "restaurants", allEntries = true)
+//    @CacheEvict(cacheNames = "restaurants", allEntries = true)
     @Transactional
     public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
         log.info("update {} with id={}", restaurantTo, id);

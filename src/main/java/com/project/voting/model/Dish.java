@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true, exclude = {"dateOfUse", "restaurant"})
 public class Dish extends NamedEntity {
 
-    @Column(name = "date_of_use", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "date_of_use", nullable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate dateOfUse = LocalDate.now();

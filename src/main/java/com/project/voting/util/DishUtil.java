@@ -21,7 +21,7 @@ public class DishUtil {
     }
 
     public static DishTo convertToDishTo(Dish dish) {
-        return new DishTo(null, dish.getName(), dish.getPrice());
+        return new DishTo(dish.getId(), dish.getName(), dish.getPrice());
     }
 
     public static List<DishTo> convertToDishTo(List<Dish> dishList) {

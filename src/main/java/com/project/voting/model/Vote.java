@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_creation"},
         name = "votes_unique_user_created_idx")})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(callSuper = true, exclude = {"dateCreation", "restaurant"})
+@EqualsAndHashCode(callSuper = true, exclude = {"restaurant"})
 public class Vote extends BaseEntity implements HasId {
 
     @Column(name = "date_creation", nullable = false)

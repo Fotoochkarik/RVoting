@@ -76,7 +76,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + MACDONALDS_ID + "/dishes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentJson(burger, bigBurger));
+                .andExpect(MATCHER.contentJson(burger, bigBurger, dish22, dish23, dish24, dish25));
     }
 
     @Test

@@ -39,7 +39,18 @@ VALUES ('2021-08-30', 'Burger', 123, 1),
        (now(), 'Dish18', 116, 6),
        (now(), 'Dish19', 117, 7),
        (now(), 'Dish20', 118, 7),
-       (now(), 'Dish21', 119, 7);
+       (now(), 'Dish21', 119, 7),
+       (now(), 'Dish22', 111, 1),
+       (now(), 'Dish23', 112, 1),
+       (now(), 'Dish24', 113, 1),
+       (now(), 'Dish25', 114, 1),
+       (now(), 'Dish26', 115, 2),
+       (now(), 'Dish27', 116, 2),
+       (now(), 'Dish28', 117, 2),
+       (now(), 'Dish29', 118, 3),
+       (now(), 'Dish30', 119, 3),
+       (now(), 'Dish31', 120, 3),
+       (now(), 'Dish32', 121, 3);
 
 INSERT INTO VOTE (user_id, restaurant_id, date_creation)
 VALUES (1, 1, '2021-08-30'),

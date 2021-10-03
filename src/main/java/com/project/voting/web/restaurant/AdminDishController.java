@@ -56,6 +56,7 @@ public class AdminDishController {
     }
 
     @PostMapping(value = "/{restaurantId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Transactional
     public ResponseEntity<Dish> create(@Valid @RequestBody DishTo dishTo, @PathVariable int restaurantId) {
         checkNew(dishTo);
         Dish dish = createNewFromTo(dishTo);

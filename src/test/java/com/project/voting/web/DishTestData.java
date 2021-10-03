@@ -30,6 +30,17 @@ public class DishTestData {
     public static final int DISH19_ID = 21;
     public static final int DISH20_ID = 22;
     public static final int DISH21_ID = 23;
+    public static final int DISH22_ID = 24;
+    public static final int DISH23_ID = 25;
+    public static final int DISH24_ID = 26;
+    public static final int DISH25_ID = 27;
+    public static final int DISH26_ID = 28;
+    public static final int DISH27_ID = 29;
+    public static final int DISH28_ID = 30;
+    public static final int DISH29_ID = 31;
+    public static final int DISH30_ID = 32;
+    public static final int DISH31_ID = 33;
+    public static final int DISH32_ID = 34;
     public static final int NOT_FOUND = 100;
 
     public static final Dish burger = new Dish(BURGER_ID, LocalDate.of(2021, 8, 30), "Burger", 123);
@@ -55,6 +66,17 @@ public class DishTestData {
     public static final Dish dish19 = new Dish(DISH19_ID, "Dish19", 117);
     public static final Dish dish20 = new Dish(DISH20_ID, "Dish20", 118);
     public static final Dish dish21 = new Dish(DISH21_ID, "Dish21", 119);
+    public static final Dish dish22 = new Dish(DISH22_ID, "Dish22", 111);
+    public static final Dish dish23 = new Dish(DISH23_ID, "Dish23", 112);
+    public static final Dish dish24 = new Dish(DISH24_ID, "Dish24", 113);
+    public static final Dish dish25 = new Dish(DISH25_ID, "Dish25", 114);
+    public static final Dish dish26 = new Dish(DISH26_ID, "Dish26", 115);
+    public static final Dish dish27 = new Dish(DISH27_ID, "Dish27", 116);
+    public static final Dish dish28 = new Dish(DISH28_ID, "Dish28", 117);
+    public static final Dish dish29 = new Dish(DISH29_ID, "Dish29", 118);
+    public static final Dish dish30 = new Dish(DISH30_ID, "Dish30", 119);
+    public static final Dish dish31 = new Dish(DISH31_ID, "Dish31", 120);
+    public static final Dish dish32 = new Dish(DISH32_ID, "Dish32", 121);
 
     public static Dish getNew() {
         return new Dish(null, "New", 150);

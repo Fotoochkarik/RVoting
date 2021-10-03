@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(callSuper = true, exclude = {"menu"})
 //https://stackoverflow.com/a/50146162
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.None.class)
 public class Restaurant extends NamedEntity implements HasId {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
